@@ -25,10 +25,10 @@ function merge(leftArray, rightArray) {
   return [...mergedArray, ...leftArray, ...rightArray];
 }
 
-// requires sorted array
-function checkDupes(array) {
-  return array.filter((current, index, a) => current !== a[index-1]);
-}
+  // requires sorted array
+ function checkDupes(array) {
+    return array.filter((current, index, a) => current !== a[index-1]);
+  }
 
 const prettyPrint = (node, prefix = "", isLeft = true) => {
   if (node === null) {
