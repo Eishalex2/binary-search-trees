@@ -1,0 +1,13 @@
+{
+  "name": "binary-search-trees",
+  "type": "module",
+  "version": "1.0.0",
+  "description": "Binary Search Tree project from top",
+  "main": "bst.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
