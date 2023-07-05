@@ -33,7 +33,44 @@ class Tree {
     }
   }
 
+  delete(data, root = this.root) {
+    if (root === null) return root;
+    if (data < root.data) {
+      root.left = this.delete(data, root.left);
+    } else if (data > root.data) {
+      root.right = this.delete(data, root.right);
+    } else {
+      // node with no children, or only one child
+      if (root.left === null) return root.right;
+      else if (root.right === null) return root.left;
 
+      root.data = this.minValue(root.right);
+      root.right = this.delete(root.data, root.right);
+    } 
+    return root;
+  }
+
+  minValue(node) {
+    let min = node.data;
+    while (node.left !== null) {
+      min = node.left.data;
+      node = node.left;
+    }
+    return min;
+  }
+
+  find(value, root = this.root) {
+    if (root === null) return null;
+
+    if (root.data === value) return root;
+
+    if (value < root.data) {
+      return this.find(value, root.left);
+    } else {
+      return this.find(value, root.right);
+    }
+    // return the node with that value;
+  }
 
   buildTree(array, start = 0, end = array.length-1) {    
     if (start > end) return null;
@@ -56,5 +93,4 @@ let sort = sortAndRemoveDupes(array);
 
 const tree = new Tree(sort);
 prettyPrint(tree.root);
-tree.insert(2);
-prettyPrint(tree.root);
+console.log(tree.find(67));
