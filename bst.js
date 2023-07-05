@@ -16,18 +16,24 @@ function sortAndRemoveDupes(array) {
 class Tree {
   constructor(array) {
     this.root = this.buildTree(array);
-    prettyPrint(this.root);
+
   }
 
-  insert(data) {
-    const newNode = new Node(data);
-
-    if (this.root === null) {
-      this.root = newNode;
+  insert(data, root = this.root) {
+    if (root === null) {
+      root = new Node(data);
+      return root;
     } else {
-
+      if (data < root.data) {
+        root.left = this.insert(data, root.left);
+      } else {
+        root.right = this.insert(data, root.right);
+      }
+      return root;      
     }
   }
+
+
 
   buildTree(array, start = 0, end = array.length-1) {    
     if (start > end) return null;
@@ -49,3 +55,6 @@ let arrayTest = [1,2,2,4];
 let sort = sortAndRemoveDupes(array);
 
 const tree = new Tree(sort);
+prettyPrint(tree.root);
+tree.insert(2);
+prettyPrint(tree.root);
