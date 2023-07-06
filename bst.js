@@ -69,8 +69,61 @@ class Tree {
     } else {
       return this.find(value, root.right);
     }
-    // return the node with that value;
   }
+
+  levelOrder(func) {
+    let resultsArray = [];
+
+    // use an array acting as a queue.
+    if (!this.root) return [];
+
+    let queue = [this.root];
+
+    while (queue.length > 0) {
+      let level = [];
+      let n = queue.length;
+
+      for (let i=0; i < n; i++) {
+        const node = queue.shift();
+        level.push(node.data);
+
+        if (node.right) queue.push(node.right);
+        if (node.left) queue.push(node.left);
+
+        if (func) func(node);
+      }
+      resultsArray.push(level);
+    }
+    if (!func) return resultsArray;
+  }
+
+  getArray()
+
+// inorder
+// left, root, right
+inOrder() {
+  let resultsArray = [];
+  if (!this.root) return [];
+
+
+}
+
+getInOrder(func, node = this.root) {
+  if (!node) return;
+  this.getInOrder(node.left);
+  if (func) func(node.data);
+  else if (!func) 
+  this.getInOrder(node.right);
+}
+
+
+// preorder
+// root, left, right
+
+// postorder
+// left, right, root
+
+
 
   buildTree(array, start = 0, end = array.length-1) {    
     if (start > end) return null;
@@ -93,4 +146,4 @@ let sort = sortAndRemoveDupes(array);
 
 const tree = new Tree(sort);
 prettyPrint(tree.root);
-console.log(tree.find(67));
+console.log(tree.levelOrder());
