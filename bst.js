@@ -144,6 +144,23 @@ class Tree {
     else if (node.data > root.data) return this.depth(node, root.right) + 1;
   }
 
+  isBalanced(node = this.root) {
+    const allNodesArray = this.inOrder();
+    for (let i = 0; i < allNodesArray.length; i++) {
+      const node = this.find(allNodesArray[i]);
+      const left = this.height(node.left);
+      const right = this.height(node.right);
+
+      if (Math.abs(left - right) > 1) return false;
+    }
+    return true;
+  }
+
+  rebalance() {
+    const sorted = this.inOrder();
+    this.root = this.buildTree(sorted);
+  }
+
   buildTree(array, start = 0, end = array.length-1) {    
     if (start > end) return null;
   
@@ -165,4 +182,5 @@ let sort = sortAndRemoveDupes(array);
 const tree = new Tree(sort);
 prettyPrint(tree.root);
 
-console.log(tree.depth(tree.find(3)));
+console.log(tree.isBalanced())
+console.log(tree.rebalance());
