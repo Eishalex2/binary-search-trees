@@ -96,8 +96,6 @@ class Tree {
     if (!func) return resultsArray;
   }
 
-// inorder
-// left, root, right
   inOrder(callback, node = this.root, inOrderArray = []) {
     if (!node) return null;
     this.inOrder(callback, node.left, inOrderArray);
@@ -128,10 +126,23 @@ class Tree {
     if (postOrderArray.length) return postOrderArray;
   }
 
-// postorder
-// left, right, root
+  height(node = this.root) {
+    // need to return -1 so that leaf nodes will have 0 height
+    if (!node) return -1;
 
+    const leftHeight = this.height(node.left);
+    const rightHeight = this.height(node.right);
 
+    return Math.max(leftHeight, rightHeight) + 1;
+  }
+
+  // depth = number of edges from given node to root node. root node's
+  // depth = 0;
+  depth(node, root = this.root) {
+    if (root.data === node.data) return 0;
+    if (node.data < root.data) return this.depth(node, root.left) + 1;
+    else if (node.data > root.data) return this.depth(node, root.right) + 1;
+  }
 
   buildTree(array, start = 0, end = array.length-1) {    
     if (start > end) return null;
@@ -149,11 +160,9 @@ class Tree {
 
 
 let array = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
-let arrayTest = [1,2,2,4];
 let sort = sortAndRemoveDupes(array);
 
 const tree = new Tree(sort);
 prettyPrint(tree.root);
-console.log(tree.inOrder());
-console.log(tree.preOrder());
-console.log(tree.postOrder());
+
+console.log(tree.depth(tree.find(3)));
