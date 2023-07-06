@@ -16,7 +16,6 @@ function sortAndRemoveDupes(array) {
 class Tree {
   constructor(array) {
     this.root = this.buildTree(array);
-
   }
 
   insert(data, root = this.root) {
@@ -97,28 +96,37 @@ class Tree {
     if (!func) return resultsArray;
   }
 
-  getArray()
-
 // inorder
 // left, root, right
-inOrder() {
-  let resultsArray = [];
-  if (!this.root) return [];
+  inOrder(callback, node = this.root, inOrderArray = []) {
+    if (!node) return null;
+    this.inOrder(callback, node.left, inOrderArray);
+    if (callback) callback(node);
+    else if (!callback) inOrderArray.push(node.data);
+    this.inOrder(callback, node.right, inOrderArray);
 
+    if (inOrderArray.length) return inOrderArray;
+  }
 
-}
+  preOrder(callback, node = this.root, preOrderArray = []) {
+    if (!node) return null;
+    if (callback) callback(node);
+    else if (!callback) preOrderArray.push(node.data);
+    this.preOrder(callback, node.left, preOrderArray);
+    this.preOrder(callback, node.right, preOrderArray);
 
-getInOrder(func, node = this.root) {
-  if (!node) return;
-  this.getInOrder(node.left);
-  if (func) func(node.data);
-  else if (!func) 
-  this.getInOrder(node.right);
-}
+    if (preOrderArray.length) return preOrderArray;
+  }
 
+  postOrder(callback, node = this.root, postOrderArray = []) {
+    if (!node) return null;
+    this.postOrder(callback, node.left, postOrderArray);
+    this.postOrder(callback, node.right, postOrderArray);
+    if (callback) callback(node);
+    else if (!callback) postOrderArray.push(node.data);
 
-// preorder
-// root, left, right
+    if (postOrderArray.length) return postOrderArray;
+  }
 
 // postorder
 // left, right, root
@@ -146,4 +154,6 @@ let sort = sortAndRemoveDupes(array);
 
 const tree = new Tree(sort);
 prettyPrint(tree.root);
-console.log(tree.levelOrder());
+console.log(tree.inOrder());
+console.log(tree.preOrder());
+console.log(tree.postOrder());
